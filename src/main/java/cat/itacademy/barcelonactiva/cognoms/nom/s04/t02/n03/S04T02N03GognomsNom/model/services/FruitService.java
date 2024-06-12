@@ -20,7 +20,7 @@ public class FruitService {
     }
 
     @Transactional
-    public Fruit updateFruit(int id, Fruit fruit){
+    public Fruit updateFruit(String id, Fruit fruit){
         Optional<Fruit> existingFruit = fruitRepository.findById(id);
         if (existingFruit.isPresent()) {
             Fruit fruitToUpdate = existingFruit.get();
@@ -33,7 +33,7 @@ public class FruitService {
     }
 
     @Transactional
-    public boolean deleteFruit(int id){
+    public boolean deleteFruit(String id){
         Optional<Fruit> existingFruit = fruitRepository.findById(id);
         if(existingFruit.isPresent()){
             fruitRepository.deleteById(id);
@@ -49,7 +49,7 @@ public class FruitService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Fruit> getFruitById(int id){
+    public Optional<Fruit> getFruitById(String id){
         return fruitRepository.findById(id);
     }
 }
