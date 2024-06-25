@@ -1,7 +1,7 @@
 package cat.itacademy.barcelonactiva.cognoms.nom.s04.t02.n03.S04T02N03GognomsNom.controllers;
 
 import cat.itacademy.barcelonactiva.cognoms.nom.s04.t02.n03.S04T02N03GognomsNom.model.domain.Fruit;
-import cat.itacademy.barcelonactiva.cognoms.nom.s04.t02.n03.S04T02N03GognomsNom.model.services.FruitService;
+import cat.itacademy.barcelonactiva.cognoms.nom.s04.t02.n03.S04T02N03GognomsNom.model.services.FruitServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 public class FruitController {
 
     @Autowired
-    private FruitService fruitService;
+    private FruitServiceImpl fruitServiceImpl;
 
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
@@ -29,7 +29,7 @@ public class FruitController {
     @PostMapping("/add")
     public ResponseEntity<Fruit> addFruit(@RequestBody Fruit fruit) {
         try {
-            Fruit addedFruit = fruitService.addFruit(fruit);
+            Fruit addedFruit = fruitServiceImpl.addFruit(fruit);
 
             return new ResponseEntity<>(addedFruit, createHeaders(),HttpStatus.CREATED);
         } catch (Exception e) {
@@ -42,7 +42,7 @@ public class FruitController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Fruit> updateFruit(@PathVariable String id, @RequestBody Fruit fruit) {
         try {
-            Fruit updatedFruit = fruitService.updateFruit(id, fruit);
+            Fruit updatedFruit = fruitServiceImpl.updateFruit(id, fruit);
 
             if (updatedFruit == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -59,7 +59,7 @@ public class FruitController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Fruit> deleteFruit(@PathVariable String id) {
         try {
-            boolean isDeleted = fruitService.deleteFruit(id);
+            boolean isDeleted = fruitServiceImpl.deleteFruit(id);
 
             if (!isDeleted) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -76,7 +76,7 @@ public class FruitController {
     @GetMapping("/getAll")
     public ResponseEntity<List<Fruit>> getAllFruits() {
         try {
-            Iterable<Fruit> fruitIterable = fruitService.getAllFruits();
+            Iterable<Fruit> fruitIterable = fruitServiceImpl.getAllFruits();
             List<Fruit> fruits = StreamSupport.stream(fruitIterable.spliterator(), false)
                     .collect(Collectors.toList());
 
@@ -90,7 +90,7 @@ public class FruitController {
 
     @GetMapping("/getOne/{id}")
     public ResponseEntity<Fruit> getFruitById(@PathVariable String id) {
-        Optional<Fruit> fruit = fruitService.getFruitById(id);
+        Optional<Fruit> fruit = fruitServiceImpl.getFruitById(id);
 
         return fruit.map(value -> new ResponseEntity<>(value, createHeaders(),HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

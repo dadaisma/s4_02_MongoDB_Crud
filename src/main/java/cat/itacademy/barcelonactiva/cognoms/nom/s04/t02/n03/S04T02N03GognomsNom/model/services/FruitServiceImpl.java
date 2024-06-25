@@ -6,19 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class FruitService {
+public class FruitServiceImpl implements  IFruitService {
     @Autowired
     private FruitRepository fruitRepository;
 
+    @Override
     @Transactional
     public Fruit addFruit(Fruit fruit) {
         return fruitRepository.save(fruit);
     }
 
+    @Override
     @Transactional
     public Fruit updateFruit(String id, Fruit fruit){
         Optional<Fruit> existingFruit = fruitRepository.findById(id);
@@ -32,6 +33,7 @@ public class FruitService {
         }
     }
 
+    @Override
     @Transactional
     public boolean deleteFruit(String id){
         Optional<Fruit> existingFruit = fruitRepository.findById(id);
@@ -43,11 +45,13 @@ public class FruitService {
         }
     }
 
+    @Override
     @Transactional(readOnly = true)
     public Iterable<Fruit> getAllFruits(){
         return fruitRepository.findAll();
     }
 
+    @Override
     @Transactional(readOnly = true)
     public Optional<Fruit> getFruitById(String id){
         return fruitRepository.findById(id);
