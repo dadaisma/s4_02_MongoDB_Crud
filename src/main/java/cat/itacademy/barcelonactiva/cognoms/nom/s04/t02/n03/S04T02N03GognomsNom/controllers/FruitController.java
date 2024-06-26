@@ -28,63 +28,34 @@ public class FruitController {
 
     @PostMapping("/add")
     public ResponseEntity<Fruit> addFruit(@RequestBody Fruit fruit) {
-        try {
             Fruit addedFruit = fruitServiceImpl.addFruit(fruit);
-
             return new ResponseEntity<>(addedFruit, createHeaders(),HttpStatus.CREATED);
-        } catch (Exception e) {
 
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Fruit> updateFruit(@PathVariable String id, @RequestBody Fruit fruit) {
-        try {
             Fruit updatedFruit = fruitServiceImpl.updateFruit(id, fruit);
-
-            if (updatedFruit == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
             return new ResponseEntity<>(updatedFruit, createHeaders(),HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
 
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Fruit> deleteFruit(@PathVariable String id) {
-        try {
             boolean isDeleted = fruitServiceImpl.deleteFruit(id);
-
-            if (!isDeleted) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
             return new ResponseEntity<>(createHeaders(),HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
+           }
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Fruit>> getAllFruits() {
-        try {
+
             Iterable<Fruit> fruitIterable = fruitServiceImpl.getAllFruits();
             List<Fruit> fruits = StreamSupport.stream(fruitIterable.spliterator(), false)
                     .collect(Collectors.toList());
 
             return new ResponseEntity<>(fruits, createHeaders(),HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
 
     }
 
