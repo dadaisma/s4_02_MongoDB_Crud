@@ -18,7 +18,7 @@ public class FruitServiceImpl implements  IFruitService {
     @Override
     @Transactional
     public Fruit addFruit(Fruit fruit) {
-        if(fruitRepository.findByName(fruit.getName()).isPresent()||fruitRepository.findById(fruit.getId()).isPresent()){
+        if(fruitRepository.findByName(fruit.getName()).isPresent()){
             throw new EntityExistsException("Create new Fruit Failed: Invalid fruit name: "+ fruit.getName()+
                     " or ID: "+fruit.getId()+" -> ALREADY EXISTS in DataBase");
         }
@@ -28,8 +28,8 @@ public class FruitServiceImpl implements  IFruitService {
     @Override
     @Transactional
     public Fruit updateFruit(String id, Fruit fruit){
-        if(!fruitRepository.findById(fruit.getId()).isPresent()) {
-            throw new EntityNotFoundException("Update Fruit Failed: Invalid fruit id: "+ fruit.getId()+
+        if(!fruitRepository.findById(id).isPresent()) {
+            throw new EntityNotFoundException("Update Fruit Failed: Invalid fruit id: "+ id +
                     " -> DOESN'T EXIST in DataBase");
         }
             return fruitRepository.save(fruit);
